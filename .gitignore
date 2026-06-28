@@ -1,0 +1,40 @@
+# ─── Environment ───────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Dependencies ─────────────────────────────────────────
+backend/node_modules/
+frontend/node_modules/
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# ─── Build Output ─────────────────────────────────────────
+frontend/dist/
+frontend/build/
+backend/dist/
+backend/build/
+
+# ─── IDE & Editor ─────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ─── OS ───────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+
+# ─── Docker ───────────────────────────────────────────────
+docker/data/
+docker/volumes/
+
+# ─── Testing ──────────────────────────────────────────────
+coverage/
+.nyc_output/
