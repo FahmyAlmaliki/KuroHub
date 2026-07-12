@@ -2,10 +2,14 @@
 
 KuroHubClass KuroHub;
 
-void KuroHubClass::begin(const char* host, uint16_t port, const char* apiKey) {
+void KuroHubClass::begin(const char* host, uint16_t port, const char* apiKey, bool useSSL) {
   _apiKey = apiKey;
 
-  _ws.begin(host, port, "/ws/device");
+  if (useSSL) {
+    _ws.beginSSL(host, port, "/ws/device");
+  } else {
+    _ws.begin(host, port, "/ws/device");
+  }
   _ws.onEvent([](WStype_t type, uint8_t* payload, size_t length) {
     KuroHub._onWsEvent(type, payload, length);
   });

@@ -4,7 +4,7 @@ KuroHub Python Library — testing KuroHub tanpa ESP32.
 API mirip KuroHub.h Arduino library:
     from kurohub import KuroHub
 
-    kh = KuroHub("ws://localhost/ws/device", "kurohub_xxxxx")
+    kh = KuroHub("wss://kurohub.fahmyalmaliki.uk/ws/device", "kurohub_xxxxx")
     kh.begin()
 
     @kh.on_write(V0)
@@ -70,7 +70,7 @@ class KuroHub:
     KuroHub Python Client — konek ke KuroHub via WebSocket.
 
     Contoh:
-        kh = KuroHub("ws://localhost/ws/device", "kurohub_xxxxx")
+        kh = KuroHub("wss://kurohub.fahmyalmaliki.uk/ws/device", "kurohub_xxxxx")
         kh.set_debug(True)
         kh.begin()
 

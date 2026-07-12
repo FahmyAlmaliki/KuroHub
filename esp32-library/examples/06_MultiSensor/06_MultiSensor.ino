@@ -3,8 +3,8 @@
 
 #define WIFI_SSID  "YourWiFi"
 #define WIFI_PASS  "YourPassword"
-#define KH_HOST    "192.168.1.100"
-#define KH_PORT    3001
+#define KH_HOST    "kurohub.fahmyalmaliki.uk"
+#define KH_PORT    443
 #define KH_API_KEY "kurohub_api_key_dari_dashboard"
 
 #define DHT_PIN   4
@@ -35,7 +35,7 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) delay(500);
 
   KuroHub.setDebug(true);
-  KuroHub.begin(KH_HOST, KH_PORT, KH_API_KEY);
+  KuroHub.begin(KH_HOST, KH_PORT, KH_API_KEY, true);
 }
 
 void loop() {

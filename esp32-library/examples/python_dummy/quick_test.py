@@ -7,12 +7,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 from kurohub import KuroHub, V0, V1
 
 # ═══════════════════════════════════════════════════════════
-API_KEY = "kurohub_44b446040714ab3c0ce450c516c0140216fb23dab39dbfa333d1e861137ee931"
-HOST = "localhost"
-PORT = 80
+API_KEY = "kurohub_api_key_dari_dashboard"
+HOST = "kurohub.fahmyalmaliki.uk"
+PORT = 443
 # ═══════════════════════════════════════════════════════════
 
-kh = KuroHub(f"ws://{HOST}:{PORT}/ws/device", API_KEY)
+use_ssl = PORT == 443
+proto = "wss" if use_ssl else "ws"
+kh = KuroHub(f"{proto}://{HOST}:{PORT}/ws/device", API_KEY)
 kh.begin()
 
 import time

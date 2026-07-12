@@ -18,9 +18,9 @@ Simulasi:
 # 📝 KONFIGURASI — edit 3 baris ini saja
 # ═══════════════════════════════════════════════════════════
 
-API_KEY = "kurohub_a6d2e7a6379a23d516e3a768dfb027b78651ad4e0bcb185037e8d9718d797729"
-HOST = "localhost"
-PORT = 80
+API_KEY = "kurohub_api_key_dari_dashboard"
+HOST = "kurohub.fahmyalmaliki.uk"
+PORT = 443
 
 # ═══════════════════════════════════════════════════════════
 #  Jangan edit di bawah ini jika tidak perlu
@@ -35,7 +35,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "python"))
 from kurohub import KuroHub, V0, V1, V2, V3, V10
 
-url = f"ws://{HOST}:{PORT}/ws/device"
+use_ssl = PORT == 443
+proto = "wss" if use_ssl else "ws"
+url = f"{proto}://{HOST}:{PORT}/ws/device"
 
 kh = KuroHub(url, API_KEY)
 kh.set_debug(True)

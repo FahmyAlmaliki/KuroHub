@@ -36,7 +36,7 @@ Install via Library Manager:
 void setup() {
   WiFi.begin("SSID", "PASS");
   while (WiFi.status() != WL_CONNECTED) delay(500);
-  KuroHub.begin("192.168.1.100", 3001, "your_api_key");
+  KuroHub.begin("kurohub.fahmyalmaliki.uk", 443, "your_api_key", true); // true = WSS
 }
 
 void loop() {
@@ -48,7 +48,7 @@ void loop() {
 
 | Function | Description |
 |----------|-------------|
-| `KuroHub.begin(host, port, apiKey)` | Connect to KuroHub server |
+| `KuroHub.begin(host, port, apiKey, useSSL?)` | Connect to KuroHub server (useSSL=true for WSS) |
 | `KuroHub.run()` | Call in `loop()`, processes WebSocket events |
 | `KuroHub.virtualWrite(Vx, value)` | Send value to dashboard (int, float, double, String) |
 | `KuroHub.syncVirtualPin(Vx)` | Request latest pin value from server |

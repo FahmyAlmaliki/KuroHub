@@ -15,7 +15,7 @@ struct PinCallback {
 
 class KuroHubClass {
 public:
-  void begin(const char* host, uint16_t port, const char* apiKey);
+  void begin(const char* host, uint16_t port, const char* apiKey, bool useSSL = false);
   void run();
 
   void virtualWrite(uint8_t pin, int value);

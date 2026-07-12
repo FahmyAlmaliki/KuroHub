@@ -336,3 +336,22 @@ File yang diverifikasi:
 - GET / → HTTP 200 ✅
 - GET /api/health → status: ok ✅
 - CSS mengandung slate bg (222 35% 7%), gold primary (42 95% 55%), blue accent (222 70% 45%) ✅
+
+[2026-07-12 23:00] — ESP32 library update: WSS support, domain production, fix examples
+Status: ✅ Selesai
+File:
+- `esp32-library/src/KuroHub.h` — diubah — tambah parameter useSSL di begin()
+- `esp32-library/src/KuroHub.cpp` — diubah — implementasi beginSSL() untuk WSS
+- `esp32-library/library.properties` — diubah — v1.1.0, URL domain
+- `esp32-library/README.md` — diubah — quick start pakai domain + WSS
+- `esp32-library/examples/01_BasicConnect/01_BasicConnect.ino` — diubah — host domain, port 443, WSS
+- `esp32-library/examples/02_VirtualPinRead/02_VirtualPinRead.ino` — diubah — sama
+- `esp32-library/examples/03_ButtonControl/03_ButtonControl.ino` — diubah — sama
+- `esp32-library/examples/04_SliderControl/04_SliderControl.ino` — diubah — sama
+- `esp32-library/examples/05_ToggleRelay/05_ToggleRelay.ino` — diubah — sama + hapus dead code onKuroHubConnect()
+- `esp32-library/examples/06_MultiSensor/06_MultiSensor.ino` — diubah — sama
+- `esp32-library/examples/07_SyncOnConnect/07_SyncOnConnect.ino` — diubah — sama
+- `esp32-library/examples/python_dummy/esp32_simulator.py` — diubah — domain + WSS
+- `esp32-library/examples/python_dummy/quick_test.py` — diubah — domain + WSS
+- `esp32-library/examples/python_dummy/kurohub/client.py` — diubah — docstring URL
+- `esp32-library/python/kurohub/client.py` — diubah — docstring URL
