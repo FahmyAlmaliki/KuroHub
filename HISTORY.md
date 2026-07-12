@@ -355,3 +355,10 @@ File:
 - `esp32-library/examples/python_dummy/quick_test.py` — diubah — domain + WSS
 - `esp32-library/examples/python_dummy/kurohub/client.py` — diubah — docstring URL
 - `esp32-library/python/kurohub/client.py` — diubah — docstring URL
+- `esp32-library/examples/platformio.ini` — dibuat — config PlatformIO dengan lib_deps
+- `esp32-library/README.md` — diubah — tambah instruksi PlatformIO + info library WebSocketsClient.h
+- `esp32-library/src/KuroHub.h` — diubah — tambah #include WiFiClientSecure.h + _sslClient member
+- `esp32-library/src/KuroHub.cpp` — diubah — pakai beginSSL() untuk WSS, fallback begin() untuk WS
+- `esp32-library/src/KuroHub.h` — diubah — tambah GTS Root R4 CA cert (PROGMEM), hapus WEBSOCKETS_SSL_ENABLE
+- `esp32-library/src/KuroHub.cpp` — diubah — ganti ke beginSslWithCA() dengan GTS_ROOT_R4
+- `nginx/nginx.conf` — diubah — backend_ws port 3001 → 3000 (WebSocket satu server dengan Express)

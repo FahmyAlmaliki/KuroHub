@@ -24,9 +24,21 @@ Copy the `src/` folder contents to:
 ```
 
 ## Dependencies
-Install via Library Manager:
+
+### Arduino IDE
+Install via Library Manager (Sketch → Include Library → Manage Libraries):
 - **WebSockets** by Markus Sattler (>= 2.4.0)
 - **ArduinoJson** by Benoit Blanchon (>= 6.21.0)
+
+### PlatformIO
+Tambahkan ke `platformio.ini`:
+```ini
+lib_deps =
+  links2004/WebSockets @ ^2.4.0
+  bblanchon/ArduinoJson @ ^6.21.0
+```
+
+> `WebSocketsClient.h` berasal dari library **WebSockets** oleh Markus Sattler ([links2004/arduinoWebSockets](https://github.com/Links2004/arduinoWebSockets)). Di PlatformIO registri: `links2004/WebSockets`.
 
 ## Quick Start
 
