@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Grip } from 'lucide-react';
 
 export function LoginPage() {
   const { login, isLoading } = useAuth();
@@ -15,14 +15,17 @@ export function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="w-full max-w-sm space-y-6">
+      <div className="w-full max-w-sm space-y-8">
         <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight">KuroHub</h1>
-          <p className="text-sm text-muted-foreground mt-1">Sign in to your dashboard</p>
+          <div className="inline-flex rounded-2xl bg-gradient-to-br from-accent to-primary p-3 shadow-lg mb-4">
+            <Grip className="h-8 w-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">KuroHub</h1>
+          <p className="text-sm text-muted-foreground mt-1.5">Sign in to your IoT dashboard</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
+        <form onSubmit={handleSubmit} className="space-y-5 rounded-2xl border border-border/50 bg-card p-6 shadow-sm">
+          <div className="space-y-1.5">
             <label htmlFor="email" className="text-sm font-medium">
               Email
             </label>
@@ -32,13 +35,13 @@ export function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
               placeholder="you@example.com"
               autoComplete="email"
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label htmlFor="password" className="text-sm font-medium">
               Password
             </label>
@@ -48,7 +51,7 @@ export function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
               placeholder="••••••••"
               autoComplete="current-password"
             />
@@ -57,7 +60,7 @@ export function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:pointer-events-none disabled:opacity-50"
+            className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-medium text-accent-foreground hover:bg-accent/90 transition-all disabled:opacity-50 shadow-sm"
           >
             {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
             {isLoading ? 'Signing in...' : 'Sign in'}
@@ -66,7 +69,7 @@ export function LoginPage() {
 
         <p className="text-center text-sm text-muted-foreground">
           Don't have an account?{' '}
-          <Link to="/register" className="font-medium text-primary hover:underline">
+          <Link to="/register" className="font-medium text-primary hover:text-primary/80 transition-colors">
             Register
           </Link>
         </p>

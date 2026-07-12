@@ -6,16 +6,8 @@ function sendSuccess(res: Response, data: unknown, status = 200): void {
   res.status(status).json({ success: true, data });
 }
 
-function extractRefreshCookie(req: Request, res: Response): string | null {
-  const token = req.cookies?.refreshToken;
-  if (!token) {
-    res.status(401).json({
-      success: false,
-      error: { code: 'NO_REFRESH_TOKEN', message: 'No refresh token provided' },
-    });
-    return null;
-  }
-  return token;
+function extractRefreshCookie(req: Request): string | null {
+  return req.cookies?.refreshToken ?? null;
 }
 
 function setRefreshCookie(res: Response, token: string): void {
@@ -56,12 +48,17 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 
 export async function refresh(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    // Coba dari cookie dulu, fallback ke request body
-    let token = extractRefreshCookie(req, res);
+    let token = extractRefreshCookie(req);
     if (!token && req.body?.refreshToken) {
       token = req.body.refreshToken;
     }
-    if (!token) return;
+    if (!token) {
+      res.status(401).json({
+        success: false,
+        error: { code: 'NO_REFRESH_TOKEN', message: 'No refresh token provided' },
+      });
+      return;
+    }
     const result = await authService.refreshToken(token);
     setRefreshCookie(res, result.refreshToken);
     sendSuccess(res, { accessToken: result.accessToken });

@@ -18,7 +18,7 @@ Simulasi:
 # 📝 KONFIGURASI — edit 3 baris ini saja
 # ═══════════════════════════════════════════════════════════
 
-API_KEY = "kurohub_44b446040714ab3c0ce450c516c0140216fb23dab39dbfa333d1e861137ee931"
+API_KEY = "kurohub_a6d2e7a6379a23d516e3a768dfb027b78651ad4e0bcb185037e8d9718d797729"
 HOST = "localhost"
 PORT = 80
 

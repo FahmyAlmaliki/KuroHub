@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useAuth } from '../hooks/useAuth';
 import { getMe, updateMe, changePassword } from '../services/auth.service';
-import { Loader2, Save, Key, User } from 'lucide-react';
+import { Loader2, Save, Key, User, Globe, Palette, Shield } from 'lucide-react';
 
 const TIMEZONES = (Intl as { supportedValuesOf?: (key: string) => string[] }).supportedValuesOf?.('timeZone') ?? [
   'UTC',
@@ -112,20 +112,22 @@ export function SettingsPage() {
   return (
     <div className="mx-auto max-w-2xl space-y-10">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <p className="text-sm text-muted-foreground mt-1.5">
           Manage your account settings and preferences
         </p>
       </div>
 
       {/* Profile Section */}
       <section>
-        <div className="flex items-center gap-2 mb-4">
-          <User className="h-5 w-5 text-muted-foreground" />
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="rounded-lg bg-accent/10 p-1.5">
+            <User className="h-4 w-4 text-accent" />
+          </div>
           <h2 className="text-lg font-semibold">Profile</h2>
         </div>
-        <form onSubmit={handleProfileSubmit} className="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
-          <div className="space-y-2">
+        <form onSubmit={handleProfileSubmit} className="space-y-5 rounded-2xl border border-border/50 bg-card p-6 shadow-sm">
+          <div className="space-y-1.5">
             <label htmlFor="settings-name" className="text-sm font-medium">
               Name
             </label>
@@ -135,11 +137,11 @@ export function SettingsPage() {
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label htmlFor="settings-email" className="text-sm font-medium">
               Email
             </label>
@@ -148,20 +150,21 @@ export function SettingsPage() {
               type="email"
               readOnly
               value={userData?.email ?? ''}
-              className="flex h-10 w-full rounded-lg border border-input bg-muted px-3 py-2 text-sm text-muted-foreground cursor-not-allowed"
+              className="flex h-10 w-full rounded-xl border border-input bg-muted px-3 py-2 text-sm text-muted-foreground cursor-not-allowed"
             />
             <p className="text-xs text-muted-foreground">Email cannot be changed</p>
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="settings-tz" className="text-sm font-medium">
+          <div className="space-y-1.5">
+            <label htmlFor="settings-tz" className="text-sm font-medium flex items-center gap-1.5">
+              <Globe className="h-3.5 w-3.5 text-muted-foreground" />
               Timezone
             </label>
             <select
               id="settings-tz"
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
             >
               {TIMEZONES.map((tz: string) => (
                 <option key={tz} value={tz}>
@@ -171,17 +174,20 @@ export function SettingsPage() {
             </select>
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Theme</label>
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium flex items-center gap-1.5">
+              <Palette className="h-3.5 w-3.5 text-muted-foreground" />
+              Theme
+            </label>
             <div className="flex gap-2">
               {THEMES.map((t) => (
                 <button
                   key={t.value}
                   type="button"
                   onClick={() => setTheme(t.value)}
-                  className={`flex-1 rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
+                  className={`flex-1 rounded-xl border px-4 py-2.5 text-sm font-medium transition-all ${
                     theme === t.value
-                      ? 'border-primary bg-primary/10 text-primary'
+                      ? 'border-primary bg-primary/10 text-primary shadow-sm'
                       : 'border-input hover:bg-muted'
                   }`}
                 >
@@ -194,7 +200,7 @@ export function SettingsPage() {
           <button
             type="submit"
             disabled={profileMutation.isPending}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-accent px-6 text-sm font-medium text-accent-foreground hover:bg-accent/90 transition-all disabled:opacity-50 shadow-sm"
           >
             {profileMutation.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -208,12 +214,14 @@ export function SettingsPage() {
 
       {/* Password Section */}
       <section>
-        <div className="flex items-center gap-2 mb-4">
-          <Key className="h-5 w-5 text-muted-foreground" />
+        <div className="flex items-center gap-2.5 mb-4">
+          <div className="rounded-lg bg-amber-500/10 p-1.5">
+            <Shield className="h-4 w-4 text-amber-400" />
+          </div>
           <h2 className="text-lg font-semibold">Change Password</h2>
         </div>
-        <form onSubmit={handlePasswordSubmit} className="space-y-4 rounded-xl border bg-card p-6 shadow-sm">
-          <div className="space-y-2">
+        <form onSubmit={handlePasswordSubmit} className="space-y-5 rounded-2xl border border-border/50 bg-card p-6 shadow-sm">
+          <div className="space-y-1.5">
             <label htmlFor="settings-current-pw" className="text-sm font-medium">
               Current Password
             </label>
@@ -223,12 +231,12 @@ export function SettingsPage() {
               required
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
-              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
               autoComplete="current-password"
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label htmlFor="settings-new-pw" className="text-sm font-medium">
               New Password
             </label>
@@ -238,13 +246,13 @@ export function SettingsPage() {
               required
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
-              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
               autoComplete="new-password"
               placeholder="Min. 6 characters"
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label htmlFor="settings-confirm-pw" className="text-sm font-medium">
               Confirm New Password
             </label>
@@ -254,7 +262,7 @@ export function SettingsPage() {
               required
               value={confirmNewPassword}
               onChange={(e) => setConfirmNewPassword(e.target.value)}
-              className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex h-10 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
               autoComplete="new-password"
             />
           </div>
@@ -262,7 +270,7 @@ export function SettingsPage() {
           <button
             type="submit"
             disabled={passwordMutation.isPending}
-            className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+            className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-amber-600 px-6 text-sm font-medium text-white hover:bg-amber-700 transition-all disabled:opacity-50 shadow-sm"
           >
             {passwordMutation.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />

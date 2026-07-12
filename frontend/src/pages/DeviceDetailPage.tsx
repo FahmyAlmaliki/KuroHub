@@ -20,6 +20,7 @@ import {
   X,
   ChevronDown,
   ChevronRight,
+  GripVertical,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useWebSocket } from '../hooks/useWebSocket';
@@ -295,25 +296,25 @@ export function DeviceDetailPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center justify-between">
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate('/devices')}
-            className="rounded-lg p-2 hover:bg-muted transition-colors"
+            className="rounded-xl p-2.5 hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-wrap">
               <h1 className="text-2xl font-bold tracking-tight">
                 {device?.name ?? 'Device'}
               </h1>
               {device && (
                 <span
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 text-xs font-medium ${
                     device.status === 'online'
-                      ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                      : 'bg-muted text-muted-foreground'
+                      ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                      : 'bg-muted text-muted-foreground border border-border'
                   }`}
                 >
                   {device.status === 'online' ? (
@@ -325,10 +326,10 @@ export function DeviceDetailPage() {
                 </span>
               )}
               <span
-                className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 text-xs font-medium border ${
                   isConnected
-                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                    : 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                    : 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                 }`}
               >
                 <Wifi className="h-3 w-3" />
@@ -336,7 +337,7 @@ export function DeviceDetailPage() {
               </span>
             </div>
             {device?.lastSeen && (
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-xs text-muted-foreground mt-1 ml-1">
                 Last seen {formatDistanceToNow(new Date(device.lastSeen), { addSuffix: true })}
               </p>
             )}
@@ -346,7 +347,7 @@ export function DeviceDetailPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowApiKey(true)}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border bg-background px-3 text-sm font-medium hover:bg-muted transition-colors"
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-border/50 bg-card px-3 text-sm font-medium hover:bg-muted transition-colors"
             title="View API key"
           >
             <Key className="h-4 w-4" />
@@ -354,43 +355,37 @@ export function DeviceDetailPage() {
           </button>
           <button
             onClick={openPinManager}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border bg-background px-3 text-sm font-medium hover:bg-muted transition-colors"
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-border/50 bg-card px-3 text-sm font-medium hover:bg-muted transition-colors"
           >
             <Settings className="h-4 w-4" />
             <span className="hidden sm:inline">Pins</span>
           </button>
           <button
             onClick={() => setWidgetPickerOpen(true)}
-            className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border bg-background px-3 text-sm font-medium hover:bg-muted transition-colors"
+            className="inline-flex h-9 items-center justify-center gap-2 rounded-xl border border-border/50 bg-card px-3 text-sm font-medium hover:bg-accent/10 hover:text-accent hover:border-accent/30 transition-all"
           >
             <Plus className="h-4 w-4" />
             Add Widget
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-red-500/30 bg-background px-3 text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
+            className="inline-flex h-9 items-center justify-center gap-1.5 rounded-xl border border-red-500/30 bg-card px-3 text-sm font-medium text-red-400 hover:bg-red-500/10 transition-colors"
             title="Delete device"
           >
             <Trash2 className="h-4 w-4" />
           </button>
           <button
             onClick={() => setIsEditMode(!isEditMode)}
-            className={`inline-flex h-9 items-center justify-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors ${
+            className={`inline-flex h-9 items-center justify-center gap-2 rounded-xl px-4 text-sm font-medium transition-all ${
               isEditMode
-                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                : 'border bg-background hover:bg-muted'
+                ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20'
+                : 'border border-border/50 bg-card hover:bg-muted'
             }`}
           >
             {isEditMode ? (
-              <>
-                <Eye className="h-4 w-4" />
-                View Mode
-              </>
+              <><Eye className="h-4 w-4" /> View</>
             ) : (
-              <>
-                <Edit3 className="h-4 w-4" />
-                Edit Mode
-              </>
+              <><Edit3 className="h-4 w-4" /> Edit</>
             )}
           </button>
         </div>
@@ -402,15 +397,17 @@ export function DeviceDetailPage() {
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : !widgets || widgets.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed bg-card py-20">
-          <Cpu className="h-12 w-12 text-muted-foreground/50" />
-          <h3 className="mt-4 font-semibold">No widgets yet</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/50 bg-card/50 py-24">
+          <div className="rounded-full bg-muted p-4 mb-4">
+            <Cpu className="h-10 w-10 text-muted-foreground/50" />
+          </div>
+          <h3 className="text-lg font-semibold">No widgets yet</h3>
+          <p className="mt-1.5 text-sm text-muted-foreground text-center max-w-sm">
             Add widgets to visualize your device data.
           </p>
           <button
             onClick={() => setWidgetPickerOpen(true)}
-            className="mt-4 inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+            className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-accent px-5 text-sm font-medium text-accent-foreground hover:bg-accent/90 transition-all"
           >
             <Plus className="h-4 w-4" />
             Add Widget
@@ -435,12 +432,17 @@ export function DeviceDetailPage() {
               <div key={widget.id}>
                 <WidgetWrapper widget={widget} isEditMode={isEditMode} onDelete={handleDeleteWidget} onEdit={handleEditWidget}>
                   {isEditMode && (
-                    <button
-                      onClick={() => handleDeleteWidget(widget.id)}
-                      className="absolute right-2 top-2 z-10 rounded-md bg-destructive p-1 text-destructive-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:bg-destructive/90"
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </button>
+                    <>
+                      <div className="widget-drag-handle absolute left-2 top-2 z-10 cursor-grab active:cursor-grabbing rounded-md bg-muted/80 p-1 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-muted">
+                        <GripVertical className="h-3.5 w-3.5 text-muted-foreground" />
+                      </div>
+                      <button
+                        onClick={() => handleDeleteWidget(widget.id)}
+                        className="absolute right-2 top-2 z-10 rounded-md bg-red-500/80 p-1 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </button>
+                    </>
                   )}
                   <div className="h-full w-full overflow-hidden">
                     {renderWidgetContent(widget)}
@@ -470,13 +472,18 @@ export function DeviceDetailPage() {
 
       {/* API Key Modal */}
       {showApiKey && device && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-md rounded-xl border bg-card p-6 shadow-lg">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl border border-border/50 bg-card p-6 shadow-2xl animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">API Key</h2>
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg bg-primary/10 p-2">
+                  <Key className="h-5 w-5 text-primary" />
+                </div>
+                <h2 className="text-lg font-semibold">API Key</h2>
+              </div>
               <button
                 onClick={() => setShowApiKey(false)}
-                className="rounded-lg p-1 hover:bg-muted transition-colors"
+                className="rounded-lg p-1.5 hover:bg-muted transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -484,7 +491,7 @@ export function DeviceDetailPage() {
             <p className="text-xs text-muted-foreground mb-3">
               This key authenticates your ESP32 with KuroHub.
             </p>
-            <div className="flex items-center gap-2 rounded-lg border bg-muted/50 px-3 py-2.5">
+            <div className="flex items-center gap-2 rounded-xl border border-border/50 bg-muted/50 px-4 py-3">
               <code className="flex-1 text-sm font-mono break-all select-all">
                 {apiKeyRevealed ? device.apiKey : `${device.apiKey.slice(0, 8)}••••••••••••`}
               </code>
@@ -504,12 +511,12 @@ export function DeviceDetailPage() {
                 className="rounded-lg p-1.5 hover:bg-muted transition-colors shrink-0"
                 title="Copy"
               >
-                {keyCopied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+                {keyCopied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
               </button>
             </div>
             <button
               onClick={() => setShowApiKey(false)}
-              className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+              className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-xl bg-accent px-4 text-sm font-medium text-accent-foreground hover:bg-accent/90 transition-all"
             >
               Close
             </button>
@@ -519,16 +526,21 @@ export function DeviceDetailPage() {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setShowDeleteConfirm(false)}>
-          <div className="w-full max-w-sm rounded-xl border border-red-500/30 bg-card p-6 shadow-lg" onClick={(e) => e.stopPropagation()}>
-            <h2 className="text-lg font-semibold text-red-400">Delete Device?</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={() => setShowDeleteConfirm(false)}>
+          <div className="w-full max-w-sm rounded-2xl border border-red-500/30 bg-card p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="rounded-lg bg-red-500/10 p-2">
+                <Trash2 className="h-5 w-5 text-red-400" />
+              </div>
+              <h2 className="text-lg font-semibold text-red-400">Delete Device?</h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
               This will permanently delete <strong>{device?.name}</strong> and all its widgets, pins, and data.
             </p>
             <div className="mt-6 flex gap-3 justify-end">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="inline-flex h-9 items-center justify-center rounded-lg border bg-background px-4 text-sm font-medium hover:bg-muted transition-colors"
+                className="inline-flex h-9 flex-1 items-center justify-center rounded-xl border border-border/50 bg-card px-4 text-sm font-medium hover:bg-muted transition-colors"
               >
                 Cancel
               </button>
@@ -538,7 +550,7 @@ export function DeviceDetailPage() {
                   await deleteDevice(deviceId);
                   navigate('/devices');
                 }}
-                className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-red-600 px-4 text-sm font-medium text-white hover:bg-red-700 transition-colors disabled:opacity-50"
+                className="inline-flex h-9 flex-1 items-center justify-center gap-2 rounded-xl bg-red-600 px-4 text-sm font-medium text-white hover:bg-red-700 transition-colors disabled:opacity-50"
               >
                 {isDeleting && <Loader2 className="h-4 w-4 animate-spin" />}
                 {isDeleting ? 'Deleting...' : 'Delete'}
@@ -550,13 +562,18 @@ export function DeviceDetailPage() {
 
       {/* Pin Manager Modal */}
       {showPinManager && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="w-full max-w-lg rounded-xl border bg-card p-6 shadow-lg max-h-[85vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-lg rounded-2xl border border-border/50 bg-card p-6 shadow-2xl max-h-[85vh] flex flex-col animate-in fade-in zoom-in-95">
             <div className="flex items-center justify-between mb-4 shrink-0">
-              <h2 className="text-lg font-semibold">Virtual Pins</h2>
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg bg-accent/10 p-2">
+                  <Settings className="h-5 w-5 text-accent" />
+                </div>
+                <h2 className="text-lg font-semibold">Virtual Pins</h2>
+              </div>
               <button
                 onClick={() => setShowPinManager(false)}
-                className="rounded-lg p-1 hover:bg-muted transition-colors"
+                className="rounded-lg p-1.5 hover:bg-muted transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -565,16 +582,16 @@ export function DeviceDetailPage() {
             {/* Pin list */}
             <div className="flex-1 overflow-y-auto min-h-0 space-y-2">
               {!pins || pins.length === 0 ? (
-                <div className="py-8 text-center text-sm text-muted-foreground">
+                <div className="py-10 text-center text-sm text-muted-foreground">
                   No virtual pins configured yet.
                 </div>
               ) : (
                 pins.map((pin) => (
                   <div
                     key={pin.pinNumber}
-                    className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2.5"
+                    className="flex items-center gap-3 rounded-xl border border-border/50 bg-card px-4 py-3 hover:bg-muted/20 transition-colors"
                   >
-                    <span className="text-xs font-mono font-bold text-primary w-10 shrink-0">
+                    <span className="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-accent/10 text-xs font-mono font-bold text-accent shrink-0">
                       V{pin.pinNumber}
                     </span>
                     <div className="flex-1 min-w-0">
@@ -610,7 +627,7 @@ export function DeviceDetailPage() {
             </div>
 
             {/* Expand/collapse form */}
-            <div className="mt-4 pt-4 border-t shrink-0">
+            <div className="mt-4 pt-4 border-t border-border/50 shrink-0">
               <button
                 onClick={() => setPinManagerExpanded(!pinManagerExpanded)}
                 className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -635,7 +652,7 @@ export function DeviceDetailPage() {
                         value={pinForm.pinNumber}
                         onChange={(e) => setPinForm({ ...pinForm, pinNumber: e.target.value })}
                         disabled={editingPinNumber !== null}
-                        className="flex h-9 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+                        className="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all disabled:opacity-50"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -643,7 +660,7 @@ export function DeviceDetailPage() {
                       <input
                         value={pinForm.label}
                         onChange={(e) => setPinForm({ ...pinForm, label: e.target.value })}
-                        className="flex h-9 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
                         placeholder="Temperature"
                       />
                     </div>
@@ -654,7 +671,7 @@ export function DeviceDetailPage() {
                       <select
                         value={pinForm.direction}
                         onChange={(e) => setPinForm({ ...pinForm, direction: e.target.value as VirtualPin['direction'] })}
-                        className="flex h-9 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
                       >
                         <option value="read">Read</option>
                         <option value="write">Write</option>
@@ -666,7 +683,7 @@ export function DeviceDetailPage() {
                       <select
                         value={pinForm.dataType}
                         onChange={(e) => setPinForm({ ...pinForm, dataType: e.target.value as VirtualPin['dataType'] })}
-                        className="flex h-9 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
                       >
                         <option value="number">Number</option>
                         <option value="string">String</option>
@@ -680,7 +697,7 @@ export function DeviceDetailPage() {
                       <input
                         value={pinForm.unit}
                         onChange={(e) => setPinForm({ ...pinForm, unit: e.target.value })}
-                        className="flex h-9 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-backspace focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
                         placeholder="°C"
                       />
                     </div>
@@ -690,7 +707,7 @@ export function DeviceDetailPage() {
                         type="number"
                         value={pinForm.minValue}
                         onChange={(e) => setPinForm({ ...pinForm, minValue: e.target.value })}
-                        className="flex h-9 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -699,21 +716,21 @@ export function DeviceDetailPage() {
                         type="number"
                         value={pinForm.maxValue}
                         onChange={(e) => setPinForm({ ...pinForm, maxValue: e.target.value })}
-                        className="flex h-9 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        className="flex h-9 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
                       />
                     </div>
                   </div>
                   <div className="flex items-center gap-2 pt-1">
                     <button
                       onClick={resetPinForm}
-                      className="inline-flex h-9 flex-1 items-center justify-center rounded-lg border bg-background px-3 text-sm font-medium hover:bg-muted transition-colors"
+                      className="inline-flex h-9 flex-1 items-center justify-center rounded-xl border border-border/50 bg-card px-3 text-sm font-medium hover:bg-muted transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={handleSavePin}
                       disabled={isUpsertingPin || !pinForm.pinNumber || !pinForm.label}
-                      className="inline-flex h-9 flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50"
+                      className="inline-flex h-9 flex-1 items-center justify-center gap-2 rounded-xl bg-accent px-3 text-sm font-medium text-accent-foreground hover:bg-accent/90 transition-all disabled:opacity-50"
                     >
                       {isUpsertingPin && <Loader2 className="h-4 w-4 animate-spin" />}
                       {editingPinNumber !== null ? 'Update' : 'Create'}
@@ -750,7 +767,7 @@ function ValueDisplayWidget({
       <p className="text-xs font-medium text-muted-foreground truncate w-full text-center">
         {widget.label}
       </p>
-      <p className="mt-1 text-3xl font-bold tabular-nums">
+      <p className="mt-1 text-3xl font-bold tabular-nums tracking-tight">
         {value !== undefined ? Number(value).toFixed(precision) : '---'}
       </p>
       {pin?.unit && (
@@ -788,7 +805,7 @@ function ButtonWidget({
     <div className="flex h-full items-center justify-center p-3">
       <button
         onClick={handleClick}
-        className="h-full w-full rounded-lg font-medium text-sm transition-all active:scale-95"
+        className="h-full w-full rounded-xl font-medium text-sm transition-all active:scale-95 shadow-sm"
         style={{
           backgroundColor: pressed ? 'hsl(var(--primary))' : (config.color ?? 'hsl(var(--secondary))'),
           color: pressed ? 'hsl(var(--primary-foreground))' : 'hsl(var(--secondary-foreground))',
@@ -829,7 +846,7 @@ function ToggleWidget({
       <button
         onClick={handleToggle}
         className={`relative h-7 w-12 rounded-full transition-colors ${
-          isOn ? 'bg-primary' : 'bg-muted-foreground/30'
+          isOn ? 'bg-primary shadow-sm shadow-primary/30' : 'bg-muted-foreground/30'
         }`}
       >
         <div
@@ -906,7 +923,7 @@ function LedWidget({
       <p className="text-xs font-medium text-muted-foreground">{widget.label}</p>
       <div
         className={`h-5 w-5 rounded-full transition-shadow ${
-          value ? 'bg-emerald-500 shadow-[0_0_12px_theme(colors.emerald.500)]' : 'bg-muted-foreground/30'
+          value ? 'bg-emerald-500 shadow-[0_0_16px_rgba(52,211,153,0.6)]' : 'bg-muted-foreground/30'
         }`}
       />
       <p className="text-xs font-medium">{value ? 'ON' : 'OFF'}</p>
@@ -921,5 +938,3 @@ function LabelWidget({ widget }: { widget: Widget }) {
     </div>
   );
 }
-
-

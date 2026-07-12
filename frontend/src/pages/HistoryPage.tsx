@@ -13,7 +13,7 @@ import { format, parseISO } from 'date-fns';
 import { useDevices } from '../hooks/useDevices';
 import { usePins } from '../hooks/useVirtualPin';
 import { getHistory, type HistoryResponse } from '../services/virtualpin.service';
-import { Loader2, History, Download } from 'lucide-react';
+import { Loader2, History, Download, Calendar, Cpu } from 'lucide-react';
 
 export function HistoryPage() {
   const { data: devices } = useDevices();
@@ -92,15 +92,15 @@ export function HistoryPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">History</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <h1 className="text-3xl font-bold tracking-tight">History</h1>
+          <p className="text-sm text-muted-foreground mt-1.5">
             View historical pin data
           </p>
         </div>
         {historyData && typeof historyData === 'object' && 'points' in historyData && (historyData as HistoryResponse).points.length > 0 && (
           <button
             onClick={handleExport}
-            className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border bg-background px-3 text-sm font-medium hover:bg-muted transition-colors"
+            className="inline-flex h-9 items-center justify-center gap-2 rounded-xl border border-border/50 bg-card px-4 text-sm font-medium hover:bg-muted transition-colors"
           >
             <Download className="h-4 w-4" />
             Export CSV
@@ -110,15 +110,18 @@ export function HistoryPage() {
 
       {/* Filters */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Device</label>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium flex items-center gap-1.5">
+            <Cpu className="h-3.5 w-3.5 text-muted-foreground" />
+            Device
+          </label>
           <select
             value={selectedDevice}
             onChange={(e) => {
               setSelectedDevice(e.target.value);
               setSelectedPin('');
             }}
-            className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex h-10 w-full rounded-xl border border-input bg-card px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
           >
             <option value="">Select device</option>
             {deviceOptions.map((opt) => (
@@ -129,13 +132,16 @@ export function HistoryPage() {
           </select>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Virtual Pin</label>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium flex items-center gap-1.5">
+            <span className="font-mono text-xs text-muted-foreground">V</span>
+            Virtual Pin
+          </label>
           <select
             value={selectedPin}
             onChange={(e) => setSelectedPin(e.target.value ? Number(e.target.value) : '')}
             disabled={!selectedDevice}
-            className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50"
+            className="flex h-10 w-full rounded-xl border border-input bg-card px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all disabled:opacity-50"
           >
             <option value="">Select pin</option>
             {pinOptions.map((opt) => (
@@ -146,33 +152,41 @@ export function HistoryPage() {
           </select>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">From</label>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium flex items-center gap-1.5">
+            <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+            From
+          </label>
           <input
             type="datetime-local"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex h-10 w-full rounded-xl border border-input bg-card px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-medium">To</label>
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium flex items-center gap-1.5">
+            <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+            To
+          </label>
           <input
             type="datetime-local"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            className="flex h-10 w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex h-10 w-full rounded-xl border border-input bg-card px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all"
           />
         </div>
       </div>
 
       {/* Chart */}
       {!selectedDevice || selectedPin === '' ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed bg-card py-20">
-          <History className="h-12 w-12 text-muted-foreground/50" />
-          <h3 className="mt-4 font-semibold">Select device and pin</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/50 bg-card/50 py-24">
+          <div className="rounded-full bg-muted p-4 mb-4">
+            <History className="h-10 w-10 text-muted-foreground/50" />
+          </div>
+          <h3 className="text-lg font-semibold">Select device and pin</h3>
+          <p className="mt-1.5 text-sm text-muted-foreground text-center max-w-sm">
             Choose a device and virtual pin to view historical data.
           </p>
         </div>
@@ -181,29 +195,34 @@ export function HistoryPage() {
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : isError ? (
-        <div className="rounded-xl border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
+        <div className="rounded-xl border border-destructive/50 bg-destructive/10 p-5 text-sm text-destructive">
           Failed to load history: {(error as Error)?.message ?? 'Unknown error'}
         </div>
       ) : chartData.length === 0 ? (
-        <div className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed bg-card py-20">
-          <History className="h-12 w-12 text-muted-foreground/50" />
-          <h3 className="mt-4 font-semibold">No data</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
+        <div className="flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/50 bg-card/50 py-24">
+          <History className="h-10 w-10 text-muted-foreground/50" />
+          <h3 className="mt-4 text-lg font-semibold">No data</h3>
+          <p className="mt-1.5 text-sm text-muted-foreground text-center max-w-sm">
             No historical data for the selected period.
           </p>
         </div>
       ) : (
-        <div className="rounded-xl border bg-card p-6 shadow-sm">
-          <ResponsiveContainer width="100%" height={400}>
+        <div className="rounded-2xl border border-border/50 bg-card p-6 shadow-sm">
+          <ResponsiveContainer width="100%" height={420}>
             <LineChart data={chartData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              <CartesianGrid strokeDasharray="3 3" className="stroke-muted/50" />
               <XAxis
                 dataKey="time"
                 tickFormatter={formatTime}
                 className="text-xs text-muted-foreground"
                 tick={{ fontSize: 12 }}
+                stroke="hsl(var(--muted-foreground))"
               />
-              <YAxis className="text-xs text-muted-foreground" tick={{ fontSize: 12 }} />
+              <YAxis
+                className="text-xs text-muted-foreground"
+                tick={{ fontSize: 12 }}
+                stroke="hsl(var(--muted-foreground))"
+              />
               <Tooltip
                 labelFormatter={(label) => {
                   try {
@@ -215,17 +234,18 @@ export function HistoryPage() {
                 contentStyle={{
                   backgroundColor: 'hsl(var(--card))',
                   border: '1px solid hsl(var(--border))',
-                  borderRadius: 'var(--radius)',
+                  borderRadius: '12px',
                   fontSize: 13,
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
                 }}
               />
               <Line
                 type="monotone"
                 dataKey="value"
                 stroke="hsl(var(--primary))"
-                strokeWidth={2}
+                strokeWidth={2.5}
                 dot={false}
-                activeDot={{ r: 4, fill: 'hsl(var(--primary))' }}
+                activeDot={{ r: 5, fill: 'hsl(var(--primary))', stroke: 'hsl(var(--background))', strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>

@@ -289,3 +289,50 @@ File:
 Status: ✅ Selesai
 File:
 - frontend/src/components/grid/WidgetPickerModal.tsx — diubah — step 2 now includes "Create New Pin" expandable section with inline form (pin number, label, direction, data type, unit, min, max); existing pins shown as radio buttons; on final submit with new pin, calls upsertPin API before creating widget
+
+[2026-06-28 17:10] — Fix deployment failure: docker-compose.yml path & .env variables not found
+Status: ✅ Selesai
+File:
+- docker-compose.yml (root) — dibuat — pindah dari docker/docker-compose.yml, perbaiki relative paths untuk root
+- docker/docker-compose.yml — dipindah — backup ke docker/docker-compose.yml.bak
+- backend/.dockerignore — dibuat — exclude node_modules, dist, .git dari build context
+- frontend/.dockerignore — dibuat — exclude node_modules, dist, .git dari build context
+- nginx/nginx.dev.conf — diubah — WS proxy port 3001 → 3000 (WS terattach di HTTP server port 3000)
+File yang diverifikasi:
+- docker compose up --build -d (dari root) → semua 5 container running ✅
+- /api/health → status: ok ✅
+- /api/health/db → postgres: ok, influx: ok ✅
+- GET / (frontend) → HTTP 200 ✅
+
+[2026-06-28 17:20] — Rebrand warna: biru dongker + kuning keemasan (gradien)
+Status: ✅ Selesai
+File:
+- frontend/src/index.css — diubah — dark mode: bg 222 25% 6%, primary 222 80% 50% (biru dongker), accent 42 90% 55% (kuning keemasan); light mode: primary 222 75% 40%
+- frontend/src/components/layout/AppLayout.tsx — diubah — sidebar header gradien biru→gold, active nav golden accent border, avatar gradien
+- frontend/src/components/layout/Sidebar.tsx — diubah — sync dengan AppLayout (header gradien, active nav, avatar gradien)
+- frontend/src/components/layout/AuthLayout.tsx — diubah — logo gradien, title gradient text
+- frontend/src/components/grid/WidgetPickerModal.tsx — diubah — purple badge → amber (readwrite direction)
+File yang diverifikasi:
+- docker build frontend → success ✅
+- GET / → HTTP 200 ✅
+- CSS mengandung 222 80% 50% (biru) dan 42 90% 55% (emas) ✅
+
+[2026-06-28 17:40] — Fix token refresh bug (500 error) + UI redesign profesional
+Status: ✅ Selesai
+File:
+- backend/src/api/auth/auth.controller.ts — diubah — extractRefreshCookie tidak lagi send response premature; null handling dipindah ke refresh()
+- frontend/src/index.css — diubah — color scheme dark slate (222 35% 7%) + gold primary (42 95% 55%) + deep blue accent (222 70% 45%)
+- frontend/src/pages/DashboardPage.tsx — diubah — border-left accent cards, stat bars, activity list profesional
+- frontend/src/pages/DevicesPage.tsx — diubah — search bar, card hover effects, modals lebih clean
+- frontend/src/pages/DeviceDetailPage.tsx — diubah — drag handle icons, modals backdrop-blur, rounded-2xl
+- frontend/src/pages/HistoryPage.tsx — diubah — filter icons, chart tooltip shadow, empty states
+- frontend/src/pages/AlertsPage.tsx — diubah — table styling, uppercase headers, badge chips
+- frontend/src/pages/SettingsPage.tsx — diubah — section icons, theme toggle, rounded-2xl
+- frontend/src/pages/auth/LoginPage.tsx — diubah — gradient icon, card form, professional layout
+- frontend/src/pages/auth/RegisterPage.tsx — diubah — gradient icon, error alert, professional layout
+File yang diverifikasi:
+- docker build frontend → success ✅
+- docker compose up -d → 5 containers running ✅
+- GET / → HTTP 200 ✅
+- GET /api/health → status: ok ✅
+- CSS mengandung slate bg (222 35% 7%), gold primary (42 95% 55%), blue accent (222 70% 45%) ✅
